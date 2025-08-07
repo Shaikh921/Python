@@ -1,7 +1,7 @@
 from turtle import Turtle, Screen
 screen=Screen()
 STARTING_POSITION=[(0,0),(-20,0),(-40,0)]
-MOVE_DISTANCE=20
+MOVE_DISTANCE=10
 UP=90
 DOWN=270
 RIGHT=0
