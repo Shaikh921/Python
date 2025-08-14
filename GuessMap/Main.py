@@ -66,8 +66,8 @@ for state in State:
     NeedToLearn.append(state)
 
 NewCsv=pandas.DataFrame(NeedToLearn)
-NewCsv.to_csv("./LearnThisState.csv")
+NewCsv.to_csv("../GuessMap/LearnThisState.csv")
 
-print(NeedToLearn)
+# print(NeedToLearn)
 
 screen.exitonclick()

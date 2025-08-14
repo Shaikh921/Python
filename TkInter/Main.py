@@ -18,9 +18,6 @@ def Calculate():
     else:
         kilometerResult.config(text=f"Invalid Input")
 
-      
-
-
 MilesEntry = Entry()
 MilesEntry.grid(column=1 , row=0)
 
