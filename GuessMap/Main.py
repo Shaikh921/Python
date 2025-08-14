@@ -27,13 +27,13 @@ State = Data.state.to_list()
 GameIsOn = True
 RemaningChances = 10
 CorrectGuess = 0
-
+GuessedState=[]
 
 while GameIsOn:
 
     answer_state = screen.textinput(title="Guess the state", prompt=" What is the Name of another State !")
 
-    if RemaningChances == 0 or CorrectGuess == 28:
+    if RemaningChances == 0 or CorrectGuess == 28 or answer_state == "Exit":
         GameIsOn = False
         t = turtle.Turtle()
         t.hideturtle()
@@ -58,7 +58,16 @@ while GameIsOn:
         Ycor = int(stateData.y)
         t.goto(Xcor, Ycor)
         t.write(answer_state)
+        GuessedState.append(answer_state)
 
+NeedToLearn=[]
+for state in State:
+  if state not in GuessedState:
+    NeedToLearn.append(state)
 
+NewCsv=pandas.DataFrame(NeedToLearn)
+NewCsv.to_csv("./LearnThisState.csv")
+
+print(NeedToLearn)
 
 screen.exitonclick()
