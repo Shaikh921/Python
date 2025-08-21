@@ -1,5 +1,6 @@
 from tkinter import *
 import math
+import os
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -83,7 +84,8 @@ TitleLable = Label(text="Timer", fg=GREEN,font=(FONT_NAME,50) ,bg=YELLOW)
 TitleLable.grid(column=1,row=0)
 
 canvas = Canvas(width= 200 ,height=224,bg=YELLOW,highlightthickness=0)
-TomatoImage=PhotoImage(file="tomato.png")
+File_Path = filePath = os.path.join(os.path.dirname(__file__), "tomato.png")
+TomatoImage=PhotoImage(file=File_Path)
 canvas.create_image(100,112 ,image=TomatoImage)
 TimerText =   canvas.create_text(100,130, text= "00:00",fill="white",font=(FONT_NAME,35,"bold"))
 canvas.grid(column=1,row=1)

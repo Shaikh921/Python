@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -28,18 +29,41 @@ def AddInfo():
     Email = EmailEntry.get()
     PassWord = PasswordEntry.get()
     Website = WesbsiteEntry.get()
+    NewData={
+               Website:{
+                        "email":Email,
+                        "password":PassWord
+                    }
+             }
     
     if len(Website)==0 or len(PassWord)==0:
         messagebox.showinfo(title="OOPS",message="Some fields are not filled")
     else:  
-        IsOk = messagebox.askokcancel(title=Website ,message=f' These are the Details entered: \nEmail: {Email}\nPassword:{PassWord}\nIs it ok to save?')
-        if IsOk:
-            with open("Data.txt","a") as DataFile:
-                DataFile.write(f"\n{Website} | {Email} | {PassWord}")
-            WesbsiteEntry.delete(0,END)
-            PasswordEntry.delete(0,END)
-
-
+        try:
+             with open("data.json","r") as data_file:
+                    data = json.load(data_file)
+                    data.update(NewData)
+        except FileNotFoundError:
+            with open("data.json","w") as data_file:
+                json.dump(NewData,data_file,indent=4)
+        else:   
+            with open("data.json","w") as data_file:
+                json.dump(data,data_file,indent=4)
+        finally:
+             WesbsiteEntry.delete(0,END)
+             PasswordEntry.delete(0,END)
+       
+def SearchPassword():
+    Website = WesbsiteEntry.get()
+    try:
+        with open("data.json" ,"r")as data_file:
+            data = json.load(data_file)
+            Email = data[Website]["email"]
+            Password = data[Website]["password"]
+            messagebox.showinfo(title=Website,message=(f"Your email is :{Email}\n Password :{Password}"))
+    except :
+        messagebox.showinfo(title=Website,message=("Website not found"))
+        
 
 
 
@@ -65,8 +89,8 @@ PasswordLable =  Label(text="Password")
 PasswordLable.grid(column=0,row=3)
 
 
-WesbsiteEntry = Entry(width=55)
-WesbsiteEntry.grid(column=1,row=1,columnspan=2)
+WesbsiteEntry = Entry(width=38)
+WesbsiteEntry.grid(column=1,row=1)
 WesbsiteEntry.focus()
 
 EmailEntry = Entry(width=55)
@@ -79,6 +103,10 @@ PasswordEntry.grid(column=1,row=3)
 
 GeneratorBtn = Button(text="Generate Password",command=GeneratPassword)
 GeneratorBtn.grid(column=2,row=3,columnspan=2)
+
+
+SearchBtn = Button(text="search",width=14,command=SearchPassword)
+SearchBtn.grid(column=2,row=1,columnspan=2)
 
 AddBtn = Button(text="Add" ,width=50, command=AddInfo)
 AddBtn.grid(column=1,row=4 ,columnspan=2) 
